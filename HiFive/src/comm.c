@@ -9,6 +9,29 @@ void auto_brake(int devid)
     // Task-1: 
     // Your code here (Use Lab 02 - Lab 04 for reference)
     // Use the directions given in the project document
+
+    int distance = 0;
+    ser_write(devid, 'R');
+    delay_usec(1000);
+    char buf[10];
+    int len = ser_readline(devid, 10, buf);
+    buf[len] = '\0';
+    scanf(buf, "%d", &distance); 
+
+    if (distance > 100) {
+        gpio_write(RED_LED, OFF);
+        gpio_write(GREEN_LED, OFF);
+        gpio_write(BLUE_LED, ON);
+    } else if (distance > 50) {
+        gpio_write(RED_LED, OFF);
+        gpio_write(GREEN_LED, OFF);
+        gpio_write(BLUE_LED, OFF);
+    } else {
+        gpio_write(RED_LED, ON);
+        gpio_write(GREEN_LED, OFF);
+        gpio_write(BLUE_LED, OFF);
+    }
+    
 }
 
 int read_from_pi(int devid)
